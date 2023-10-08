@@ -4,7 +4,7 @@ const cubes = [
     {
         id: '51r28k8lnhiqeuq',
         name: 'Eco-Dark',
-        description: 'The best looking cube out there!',
+        description: 'The best looking rubix cube out there!',
         imageUrl: 'https://thingsidesire.com/wp-content/uploads/2018/06/Eco-Dark-Rubik%E2%80%99s-Cube2.jpg',
         difficultyLevel: 6
     },
@@ -35,6 +35,21 @@ exports.create = (cubeData) => {
     return newCube;
 }
 
-exports.getAll = () => {
-    return [...cubes];
+exports.getAll = (search, from, to) => {
+    let filterCubes = [...cubes];
+    if (search) {
+        filterCubes = filterCubes.filter((cube) => cube.name.toLowerCase().includes(search.toLowerCase()));
+    }
+    if (from) {
+        filterCubes = filterCubes.filter((cube) => cube.difficultyLevel >= Number(from));
+    }
+    if (to) {
+        filterCubes = filterCubes.filter((cube) => cube.difficultyLevel <= Number(to));
+    }
+
+    return filterCubes;
+}
+
+exports.getSingleCube = (id) => {
+    return cubes.find((cube) => cube.id === id);
 }
